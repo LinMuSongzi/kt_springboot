@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RestController
 class OneController {
 
 
-    @RequestMapping("/msz1")
-    fun helloWorld():String{
-        return "hello world"
-    }
-
+//    @RequestMapping(name = "/msz1")
+//    fun helloWorld():String{
+//        return "hello world"
+//    }
+//
+//    @RequestMapping("/mszJson")
+//    fun helloWorld():String{
+//        return "hello world"
+//    }
 
 
     @GetMapping("/msz2")
