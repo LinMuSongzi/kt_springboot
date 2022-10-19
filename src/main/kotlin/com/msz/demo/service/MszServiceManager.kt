@@ -31,10 +31,7 @@ class MszServiceManager : IHolderInjection {
     inline fun <reified T : Any> instanceService(kClass: KClass<T>): T {
         when (kClass) {
             AppService::class -> {
-                return instanceServiceImple(kClass) as T
-            }
-            UtilHelpService::class -> {
-                return instanceServiceImple(kClass) as T
+                return instanceServiceImple(AppServiceImpl::class) as T
             }
         }
         throw IllegalAccessError("service not find");

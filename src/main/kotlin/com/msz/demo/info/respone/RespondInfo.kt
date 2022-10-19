@@ -9,7 +9,7 @@ data class RespondInfo<T>(var code: Int, var msg: String, var data: T? = null)
 fun <T> simple(code: Int = RESULT_CODE_OK, msg: String = DEFAULT_RESPONE_MSG, data: T? = null): RespondInfo<T> {
     return RespondInfo(code, msg, data)
 }
-
+//
 //fun buildConfigRespond(token: TokenRequest): RespondInfo<String> {
 //    return simple(data = "");
 //}
