@@ -2,6 +2,7 @@ package com.msz.demo.service
 
 import com.msz.demo.IHolderInjection
 import com.msz.demo.service.impl.AppServiceImpl
+import com.msz.demo.service.impl.SoxServiceImpl
 import org.springframework.beans.factory.annotation.InjectionMetadata
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
@@ -32,6 +33,9 @@ class MszServiceManager : IHolderInjection {
         when (kClass) {
             AppService::class -> {
                 return instanceServiceImple(AppServiceImpl::class) as T
+            }
+            SoxService::class -> {
+                return instanceServiceImple(SoxServiceImpl::class) as T
             }
         }
         throw IllegalAccessError("service not find");
