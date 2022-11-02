@@ -290,6 +290,7 @@ interface SoxService {
     原文链接：https://blog.csdn.net/m0_45605854/article/details/120346632
      */
     fun holderEffectsData(): RespondInfo<List<EffectsBean>> {
+        println("hashcode " + hashCode() + " , Thread = " + Thread.currentThread() + " SystemTime " + System.currentTimeMillis()/1000)
        return EFFECTS_ARRAY
     }
 

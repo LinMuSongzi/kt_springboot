@@ -10,7 +10,11 @@ import com.msz.demo.service.AppService
 import com.msz.demo.service.MszServiceManager.Companion.getServiceImpl
 import org.apache.tomcat.util.http.fileupload.IOUtils
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.io.FileInputStream
+import java.io.IOException
+import java.util.*
 import javax.servlet.http.HttpServletResponse
 
 @RestController
@@ -32,7 +36,7 @@ class AppConfigController {
     fun testArray(
         @RequestParam("page") page: Int,
         @RequestParam("size") size: Int = 20,
-        @RequestParam("lastId") id:String? = null
+        @RequestParam("lastId") id: String? = null
     ): RespondInfo<MutableList<StringChooseBean>> {
         println()
         var page2 = page
@@ -49,7 +53,7 @@ class AppConfigController {
         while (true) {
             re.data!!.add(TEST_ARRAYS[start2])
             start2++
-            if (start2 >= maxSize || start2 == start){
+            if (start2 >= maxSize || start2 == start) {
                 break
             }
         }
@@ -65,35 +69,43 @@ class AppConfigController {
     fun download千山万水(
         response: HttpServletResponse
     ) {
-        downFile(response,"G:\\idea_web_project\\千山万水.mp3")
+        downFile(response, "G:\\idea_web_project\\千山万水.mp3")
     }
 
     @GetMapping("/我的刻苦铭心的恋人.mp3")
     fun download我的刻苦铭心的爱人(
         response: HttpServletResponse
     ) {
-        downFile(response,"G:\\idea_web_project\\闪歌_我的刻苦铭心的恋人.mp3")
+        downFile(response, "G:\\idea_web_project\\闪歌_我的刻苦铭心的恋人.mp3")
     }
 
     @GetMapping("/wavTest.wav")
     fun downloadWav1(
         response: HttpServletResponse
     ) {
-        downFile(response,"G:\\idea_web_project\\dnsRXV0SUH6ASVysADygTuw80Ak462.wav")
+        downFile(response, "G:\\idea_web_project\\dnsRXV0SUH6ASVysADygTuw80Ak462.wav")
     }
 
     @GetMapping("/wavTest2.wav")
     fun downloadWav2(
         response: HttpServletResponse
     ) {
-        downFile(response,"G:\\idea_web_project\\ad7d1d4edff2167163b7303f0fd9f369.wav")
+        downFile(response, "G:\\idea_web_project\\ad7d1d4edff2167163b7303f0fd9f369.wav")
+    }
+
+    @GetMapping("/wavTest2.mp3")
+    fun downloadWav3(
+        response: HttpServletResponse
+    ) {
+
+        downloadWav2(response)
     }
 
     //G:\idea_web_project
 
     private fun downFile(response: HttpServletResponse, s: String) {
         response.contentType = "application/x-download"
-        response.characterEncoding="UTF-8"
+        response.characterEncoding = "UTF-8"
         response.setHeader("Content-Disposition", "attachment;filename=qianshanwans.mp3")
         val inputStream = FileInputStream(s)
         val outputStream = response.outputStream
@@ -106,7 +118,7 @@ class AppConfigController {
     fun card1(
         @RequestParam("page") page: Int,
         @RequestParam("size") size: Int = 20,
-        @RequestParam("lastId") id:String? = null
+        @RequestParam("lastId") id: String? = null
     ): RespondInfo<MutableList<StringChooseBean>> {
         println()
         var page2 = page
@@ -123,7 +135,7 @@ class AppConfigController {
         while (true) {
             re.data!!.add(TEST_ARRAYS[start2])
             start2++
-            if (start2 >= maxSize || start2 == start){
+            if (start2 >= maxSize || start2 == start) {
                 break
             }
         }
@@ -199,37 +211,36 @@ class AppConfigController {
 
     }
 
-
-}
-//fun threadPrint() {
-//    var sum = 0;
-//    val maxCout = 1_000_000
-//    val runMethod = {
-//        synchronized(ObjectInput::class.java) {
-//            if(sum == 5){
-//                return@synchronized
-//            }
-//            println("test: "+sum++)
-//        }
-//    }
-//    val run = {
-//        Thread {
-//            while (sum < 5) {
-//                runMethod()
-//            }
-//        }.start()
-//    }
-//    for(i in 0 until maxCout){
-//        run()
-//    }
-//}
-//
-fun main(args: Array<String>) {
-//    threadPrint()
-    exeRun()
-}
-
-fun exeRun() {
-
+    @PostMapping("/postPath")
+    fun postPath(@RequestParam("headerFile") file: MultipartFile): RespondInfo<String>? {
+        return if (!file.isEmpty) {
+            val uploadPath = "D:\\uploadFile"
+            // 如果目录不存在则创建
+            val uploadDir = File(uploadPath)
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir()
+            }
+            val originalFilename = file.originalFilename //获取原文件名
+            val suffixName = originalFilename!!.substring(originalFilename.lastIndexOf(".")) //获取文件后缀名
+            //重新随机生成名字
+            val filename = UUID.randomUUID().toString() + suffixName
+            val localFile = File(uploadPath + "\\" + filename)
+            try {
+                println("    file.getBytes().length = " + file.bytes.size)
+                file.transferTo(localFile) //把上传的文件保存至本地
+                /**
+                 * 这里应该把filename保存到数据库,供前端访问时使用
+                 */
+                simple(200, msg = "上传成功", data = filename) //上传成功，返回保存的文件地址
+            } catch (e: IOException) {
+                e.printStackTrace()
+                println("上传失败")
+                simple(-2, "上传失败", data = "")
+            }
+        } else {
+            println("文件为空")
+            simple(-1, "文件为空", data = "")
+        }
+    }
 
 }
