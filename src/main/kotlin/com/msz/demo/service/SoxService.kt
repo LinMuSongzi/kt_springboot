@@ -3,6 +3,7 @@ package com.msz.demo.service
 import com.msz.demo.info.respone.EffectsBean
 import com.msz.demo.info.respone.RespondInfo
 import com.msz.demo.info.respone.simple
+import org.springframework.stereotype.Service
 
 
 private val EFFECTS_ARRAY :RespondInfo<List<EffectsBean>> = simple(data = arrayListOf<EffectsBean>().apply {
@@ -190,6 +191,7 @@ private fun buildEffectRealData(s: String): List<EffectsBean>? {
     }
     return list;
 }
+
 interface SoxService {
     /**
      * 2.2 滤波器类

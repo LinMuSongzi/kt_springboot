@@ -5,7 +5,10 @@ import com.msz.demo.info.respone.RespondInfo
 import com.msz.demo.info.respone.buildConfigErrorRespond
 import com.msz.demo.info.respone.simple
 import com.msz.demo.service.AppService
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
+@Service
 class AppServiceImpl :AppService{
     override fun checkTokenAndRespond(token: TokenRequest): RespondInfo<String?> {
 

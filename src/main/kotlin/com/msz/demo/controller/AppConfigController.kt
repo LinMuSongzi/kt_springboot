@@ -7,28 +7,29 @@ import com.msz.demo.info.respone.RespondInfo
 import com.msz.demo.info.respone.buildConfigErrorRespond
 import com.msz.demo.info.respone.simple
 import com.msz.demo.service.AppService
-import com.msz.demo.service.MszServiceManager.Companion.getServiceImpl
 import org.apache.tomcat.util.http.fileupload.IOUtils
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import java.lang.Exception
 import java.util.*
 import javax.servlet.http.HttpServletResponse
 
 @RestController
 class AppConfigController {
-//    constructor(){
-//        threadPrint()
-//    }
+
+    @Autowired
+    lateinit var appService: AppService
 
     @GetMapping("/appConfig")
     fun appConfig(@RequestBody token: TokenRequest): RespondInfo<String?> {
         if (token.token == null) {
             return buildConfigErrorRespond()
         }
-        return getServiceImpl<AppService>().checkTokenAndRespond(token)
+        return appService.checkTokenAndRespond(token)
     }
 
 
@@ -90,6 +91,7 @@ class AppConfigController {
     fun downloadWav2(
         response: HttpServletResponse
     ) {
+
         downFile(response, "G:\\idea_web_project\\ad7d1d4edff2167163b7303f0fd9f369.wav")
     }
 
