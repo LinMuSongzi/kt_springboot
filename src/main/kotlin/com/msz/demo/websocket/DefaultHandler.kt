@@ -1,7 +1,10 @@
 package com.msz.demo.websocket
 
 import org.springframework.stereotype.Component
+import org.springframework.web.socket.BinaryMessage
 import org.springframework.web.socket.CloseStatus
+import org.springframework.web.socket.PingMessage
+import org.springframework.web.socket.PongMessage
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketHandler
 import org.springframework.web.socket.WebSocketMessage
@@ -22,8 +25,21 @@ class DefaultHandler : WebSocketHandler {
     @Throws(Exception::class)
     override fun afterConnectionEstablished(session: WebSocketSession) {
         // 缓存用户信息: userInfo
-        map[session.id] = session
-        session.sendMessage(TextMessage("你好~~~~"))
+        val id = session.id
+        map[id] = session
+        println("sessione id = $id")
+        session.sendMessage(TextMessage("连接成功,你的id = $id"))
+        Thread{
+            var time = 0
+            while (time <= 6000) {
+                time += 1500
+                Thread.sleep(1500)
+                val s = map[id]
+                if(s!= null && s.isOpen) {
+                    s.sendMessage(TextMessage("连接时长 ，时间 $time"))
+                }
+            }
+        }.start()
     }
 
     /**
@@ -34,7 +50,22 @@ class DefaultHandler : WebSocketHandler {
      */
     @Throws(Exception::class)
     override fun handleMessage(session: WebSocketSession, message: WebSocketMessage<*>) {
+        when(message){
+            is TextMessage->{
+                println("recevier message type TextMessage ")
+                session.sendMessage(TextMessage("无法识别 ：'${String(message.asBytes())}'"))
+            }
+            is PingMessage->{
+                println("recevier message type PingMessage ")
+            }
+            is PongMessage->{
+                println("recevier message type PongMessage ")
+            }
+            is BinaryMessage->{
+                println("recevier message type BinaryMessage ")
+            }
 
+        }
     }
 
     /**
