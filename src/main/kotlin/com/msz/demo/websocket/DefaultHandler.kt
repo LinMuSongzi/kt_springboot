@@ -53,7 +53,7 @@ class DefaultHandler : WebSocketHandler {
         when(message){
             is TextMessage->{
                 println("recevier message type TextMessage ")
-                session.sendMessage(TextMessage("无法识别 ：'${String(message.asBytes())}'"))
+                session.sendMessage(TextMessage("SpringBoot服务器返回 ：'${String(message.asBytes())}'"))
             }
             is PingMessage->{
                 println("recevier message type PingMessage ")
