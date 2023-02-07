@@ -18,6 +18,7 @@ import java.lang.Exception
 import java.util.*
 import javax.servlet.http.HttpServletResponse
 
+
 @RestController
 class AppConfigController {
 
@@ -70,21 +71,21 @@ class AppConfigController {
     fun download千山万水(
         response: HttpServletResponse
     ) {
-        downFile(response, "G:\\idea_web_project\\千山万水.mp3")
+        downFile(response, "G:\\idea_web_project\\千山万水.mp3","千山万水.mp3")
     }
 
     @GetMapping("/我的刻苦铭心的恋人.mp3")
     fun download我的刻苦铭心的爱人(
         response: HttpServletResponse
     ) {
-        downFile(response, "G:\\idea_web_project\\闪歌_我的刻苦铭心的恋人.mp3")
+        downFile(response, "G:\\idea_web_project\\闪歌_我的刻苦铭心的恋人.mp3","闪歌_我的刻苦铭心的恋人.mp3")
     }
 
     @GetMapping("/wavTest.wav")
     fun downloadWav1(
         response: HttpServletResponse
     ) {
-        downFile(response, "G:\\idea_web_project\\dnsRXV0SUH6ASVysADygTuw80Ak462.wav")
+        downFile(response, "G:\\idea_web_project\\dnsRXV0SUH6ASVysADygTuw80Ak462.wav","dnsRXV0SUH6ASVysADygTuw80Ak462.wav")
     }
 
     @GetMapping("/wavTest2.wav")
@@ -92,8 +93,16 @@ class AppConfigController {
         response: HttpServletResponse
     ) {
 
-        downFile(response, "G:\\idea_web_project\\ad7d1d4edff2167163b7303f0fd9f369.wav")
+        downFile(response, "D:\\music\\千山万水.mp3","千山万水.mp3")
     }
+
+    @GetMapping("/text")
+    fun getFileString(
+        response: HttpServletResponse
+    ) {
+        downFile(response, "D:\\music\\text2222.txt","text2222.txt")
+    }
+
 
     @GetMapping("/wavTest2.mp3")
     fun downloadWav3(
@@ -105,10 +114,10 @@ class AppConfigController {
 
     //G:\idea_web_project
 
-    private fun downFile(response: HttpServletResponse, s: String) {
+    private fun downFile(response: HttpServletResponse, s: String,name:String) {
         response.contentType = "application/x-download"
         response.characterEncoding = "UTF-8"
-        response.setHeader("Content-Disposition", "attachment;filename=qianshanwans.mp3")
+        response.setHeader("Content-Disposition", "attachment;filename=$name")
         val inputStream = FileInputStream(s)
         val outputStream = response.outputStream
         IOUtils.copy(inputStream, outputStream)
@@ -146,6 +155,8 @@ class AppConfigController {
 
 
     companion object {
+
+
 
         val TEST_ARRAYS = arrayOf(
             "a".bean(),
@@ -244,5 +255,6 @@ class AppConfigController {
             simple(-1, "文件为空", data = "")
         }
     }
+
 
 }
