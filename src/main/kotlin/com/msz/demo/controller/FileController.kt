@@ -28,24 +28,19 @@ class FileController {
     lateinit var service : FileService
 
     @PostMapping("/disk/search")
-    fun searchDisk(@RequestParam acceseKey: String): RespondInfo<List<DiskInfo>> {
+    fun searchDisk(@RequestHeader("acceseKey") acceseKey: String): RespondInfo<List<DiskInfo>> {
         return simple(data = service.loaderDiskInfo(acceseKey))
     }
 
     @PostMapping("/disk/files")
-    fun getDirFiles(@RequestParam acceseKey: String, @RequestParam dirToken: String): RespondInfo<List<FileInfo>> {
-        return simple(data = service.loadDirFiles(acceseKey,dirToken))
-    }
-
-    @GetMapping("/disk/file")
-    fun getFilePath(@RequestParam acceseKey: String, @RequestParam token: String): RespondInfo<String> {
-        return simple(data = service.getFilePath(acceseKey,token))
+    fun getDirFiles(@RequestHeader("acceseKey") acceseKey: String, @RequestHeader("path") path: String): RespondInfo<List<FileInfo>> {
+        return simple(data = service.loadDirFiles(acceseKey,path))
     }
 
     @GetMapping("/disk/file2")
     @Throws(IOException::class)
-    fun loadFile(@RequestParam acceseKey: String, @RequestParam token: String): ResponseEntity<Resource?>? {
-        service.findPath(acceseKey, token)?.apply {
+    fun loadFile(@RequestParam("acceseKey") acceseKey: String, @RequestParam("path") path: String): ResponseEntity<Resource?>? {
+        service.findPath(acceseKey, path)?.apply {
             // 根据文件名获取文件流
             val inputStream: InputStream = FileInputStream(this)
             // 创建文件流资源对象
