@@ -114,15 +114,6 @@ class AppConfigController {
 
     //G:\idea_web_project
 
-    private fun downFile(response: HttpServletResponse, s: String,name:String) {
-        response.contentType = "application/x-download"
-        response.characterEncoding = "UTF-8"
-        response.setHeader("Content-Disposition", "attachment;filename=$name")
-        val inputStream = FileInputStream(s)
-        val outputStream = response.outputStream
-        IOUtils.copy(inputStream, outputStream)
-        outputStream.flush()
-    }
 
 
     @PostMapping("/card1")
@@ -157,6 +148,15 @@ class AppConfigController {
     companion object {
 
 
+        public fun downFile(response: HttpServletResponse, s: String,name:String) {
+            response.contentType = "application/x-download"
+            response.characterEncoding = "UTF-8"
+            response.setHeader("Content-Disposition", "attachment;filename=$name")
+            val inputStream = FileInputStream(s)
+            val outputStream = response.outputStream
+            IOUtils.copy(inputStream, outputStream)
+            outputStream.flush()
+        }
 
         val TEST_ARRAYS = arrayOf(
             "a".bean(),
