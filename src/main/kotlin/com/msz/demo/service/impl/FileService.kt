@@ -50,7 +50,7 @@ class FileService {
                 f.listFiles()?.filter {
                     list.add(
                         FileInfo(
-                            it.name,
+                            it.absolutePath,
                             fileType = if (it.isDirectory) 1 else 2,
                             path = it.absolutePath,
                             token = ROOT

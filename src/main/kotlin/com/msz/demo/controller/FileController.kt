@@ -28,12 +28,12 @@ class FileController {
     lateinit var service : FileService
 
     @PostMapping("/disk/search")
-    fun searchDisk(@RequestHeader("acceseKey") acceseKey: String): RespondInfo<List<DiskInfo>> {
+    fun searchDisk(@RequestParam("acceseKey") acceseKey: String): RespondInfo<List<DiskInfo>> {
         return simple(data = service.loaderDiskInfo(acceseKey))
     }
 
     @PostMapping("/disk/files")
-    fun getDirFiles(@RequestHeader("acceseKey") acceseKey: String, @RequestHeader("path") path: String): RespondInfo<List<FileInfo>> {
+    fun getDirFiles(@RequestParam("acceseKey") acceseKey: String, @RequestParam("path") path: String): RespondInfo<List<FileInfo>> {
         return simple(data = service.loadDirFiles(acceseKey,path))
     }
 
