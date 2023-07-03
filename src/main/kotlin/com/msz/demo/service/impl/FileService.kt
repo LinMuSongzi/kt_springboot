@@ -13,6 +13,9 @@ class FileService {
     companion object {
         const val ROOT = "root_msz"
         const val ROOT_TIME = -1L
+
+        const val DIR_TYPE = 1
+        const val FILE_TYPE = 2
     }
 
     val cacheAcceseKeyMap = HashMap<String, Long>().apply {
